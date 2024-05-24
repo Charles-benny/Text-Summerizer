@@ -32,30 +32,8 @@ Organize your project directory as follows:
 
 markdown
 Copy code
-Text-Summarization/
-│
-├── main.py
-├── requirements.txt
-├── config/
-│   ├── config.yaml
-│   ├── params.yaml
-├── src/
-│   ├── __init__.py
-│   ├── textSummarizer/
-│       ├── __init__.py
-│       ├── components/
-│       │   ├── __init__.py
-│       │   ├── data_ingestion.py
-│       │   ├── data_validation.py
-│       │   ├── data_transformation.py
-│       │   ├── model_trainer.py
-│       ├── pipeline/
-│           ├── __init__.py
-│           ├── stage_01_data_ingestion.py
-│           ├── stage_02_data_validation.py
-│           ├── stage_03_data_transformation.py
-│           ├── stage_04_model_trainer.py
-└── artifacts/
+
+
 3. Configuration Files
 config/config.yaml:
 
@@ -63,7 +41,7 @@ yaml
 Copy code
 data_ingestion:
   dataset_url: "https://example.com/dataset.csv"
-  raw_data_dir: "artifacts/data_ingestion/"
+  raw_data_dir: "artifacts/data_ingestion/artifacts"
 
 data_validation:
   schema_file: "schema.json"
@@ -98,6 +76,7 @@ class DataIngestion:
         os.makedirs(self.config['data_ingestion']['raw_data_dir'], exist_ok=True)
         with open(os.path.join(self.config['data_ingestion']['raw_data_dir'], 'data.csv'), 'wb') as f:
             f.write(response.content)
+            
 Data Validation (src/textSummarizer/components/data_validation.py):
 
 python
@@ -114,6 +93,7 @@ class DataValidation:
         with open(schema_path) as schema_file:
             schema = json.load(schema_file)
         # Implement validation logic
+        
 Data Transformation (src/textSummarizer/components/data_transformation.py):
 
 python
@@ -154,6 +134,7 @@ class ModelTrainer:
             eval_dataset=eval_dataset
         )
         trainer.train()
+        
 Pipeline Stages (e.g., src/textSummarizer/pipeline/stage_01_data_ingestion.py):
 
 python
@@ -167,6 +148,7 @@ class DataIngestionTrainingPipeline:
 
     def main(self):
         self.data_ingestion.download_data()
+        
 Main Script (main.py):
 
 python
@@ -190,6 +172,7 @@ if __name__ == "__main__":
     
     model_trainer_pipeline = ModelTrainerTrainingPipeline(config)
     model_trainer_pipeline.main()
+    
 5. Running the Project
 Activate the conda environment and run the main script:
 
